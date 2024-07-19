@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cn.lsr.boot</groupId>
+    <groupId>cn.lsr.boot.bom</groupId>
     <artifactId>lsr-project-bom</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -20,6 +20,10 @@
         <hutools.version>5.8.0</hutools.version>
         <fastjson.version>1.2.83</fastjson.version>
         <mysql.version>8.0.33</mysql.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <freemarker.version>2.3.31</freemarker.version>
+        <velocity-engine-core.version>2.3</velocity-engine-core.version>
+        <swagger.verison>3.0.0</swagger.verison>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -44,7 +48,27 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            <!--SpringBootTest-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${swagger.verison}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.plugin</groupId>
+                        <artifactId>spring-plugin-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework.plugin</groupId>
+                        <artifactId>spring-plugin-metadata</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-core</artifactId>
@@ -56,9 +80,33 @@
                 <version>${fastjson.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.mysql</groupId>
+                <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
+            </dependency>
+            <!--mybatis-plus-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--mybatis-plus-generator 生成器-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--freemarker引擎模板-->
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
+            </dependency>
+            <!--velocity-->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity-engine-core.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
