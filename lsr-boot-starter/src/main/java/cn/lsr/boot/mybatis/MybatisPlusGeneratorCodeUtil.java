@@ -36,7 +36,7 @@ public class MybatisPlusGeneratorCodeUtil {
         GeneratorConfig generatorConfig = new GeneratorConfig(url, name, password);
         GeneratorConfig.Annotation annotation = new GeneratorConfig.Annotation();
         annotation.setAuthor("lishirui");
-        annotation.setParentPackage("cn.lsr.boot");
+        annotation.setParentPackage("cn.lsr.boot.demo");
         annotation.setModuleName("provider");
         generatorConfig.setAnnotation(annotation);
         // create
@@ -150,7 +150,7 @@ public class MybatisPlusGeneratorCodeUtil {
                             .commentDate("yyyy-MM-dd hh:mm:ss")   //注释日期
                             .dateType(DateType.ONLY_DATE)   //定义生成的实体类中日期的类型 TIME_PACK=LocalDateTime;ONLY_DATE=Date;
                             .fileOverride()   //覆盖之前的文件
-                            .enableSwagger()   //开启 swagger 模式
+//                            .enableSwagger()   //开启 swagger 模式
                             .disableOpenDir();   //禁止打开输出目录，默认打开
                 })
                 //3、包配置

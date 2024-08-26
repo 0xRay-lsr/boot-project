@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -15,53 +13,74 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author lishirui
- * @since 2024-07-19 03:08:18
+ * @since 2024-07-30 05:30:46
  */
 @TableName("t_users")
-@ApiModel(value = "Users对象", description = "用户信息表")
 public class Users {
 
-    @ApiModelProperty("用户ID，自动递增唯一标识")
+    /**
+     * 用户ID，自动递增唯一标识
+     */
     @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
 
-    @ApiModelProperty("用户的名字")
+    /**
+     * 用户的名字
+     */
     @TableField("first_name")
     private String firstName;
 
-    @ApiModelProperty("用户的姓氏")
+    /**
+     * 用户的姓氏
+     */
     @TableField("last_name")
     private String lastName;
 
-    @ApiModelProperty("用户名，唯一且不能为空")
+    /**
+     * 用户名，唯一且不能为空
+     */
     @TableField("username")
     private String username;
 
-    @ApiModelProperty("用户密码，使用加密存储")
+    /**
+     * 用户密码，使用加密存储
+     */
     @TableField("password")
     private String password;
 
-    @ApiModelProperty("用户邮箱，唯一且不能为空")
+    /**
+     * 用户邮箱，唯一且不能为空
+     */
     @TableField("email")
     private String email;
 
-    @ApiModelProperty("用户电话号码，可为空")
+    /**
+     * 用户电话号码，可为空
+     */
     @TableField("phone_number")
     private String phoneNumber;
 
-    @ApiModelProperty("用户地址，可为空")
+    /**
+     * 用户地址，可为空
+     */
     @TableField("address")
     private String address;
 
-    @ApiModelProperty("用户出生日期，可为空")
+    /**
+     * 用户出生日期，可为空
+     */
     @TableField("date_of_birth")
     private Date dateOfBirth;
 
-    @ApiModelProperty("账户创建时间，默认为当前时间")
+    /**
+     * 账户创建时间，默认为当前时间
+     */
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Date createTime;
 
-    @ApiModelProperty("账户更新时间，每次更新时自动修改为当前时间")
+    /**
+     * 账户更新时间，每次更新时自动修改为当前时间
+     */
     @TableField("update_time")
     private Date updateTime;
 

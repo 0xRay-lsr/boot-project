@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.util.Date;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
@@ -15,41 +13,56 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author lishirui
- * @since 2024-07-19 03:08:18
+ * @since 2024-07-30 05:30:46
  */
 @TableName("t_accounts")
-@ApiModel(value = "Accounts对象", description = "账户信息表")
 public class Accounts {
 
-    @ApiModelProperty("账户ID，自动递增唯一标识")
+    /**
+     * 账户ID，自动递增唯一标识
+     */
     @TableId(value = "account_id", type = IdType.AUTO)
     private Integer accountId;
 
-    @ApiModelProperty("用户ID，关联用户信息表")
+    /**
+     * 用户ID，关联用户信息表
+     */
     @TableField("user_id")
     private Integer userId;
 
-    @ApiModelProperty("账户类型，储蓄账户或支票账户")
+    /**
+     * 账户类型，储蓄账户或支票账户
+     */
     @TableField("account_type")
     private String accountType;
 
-    @ApiModelProperty("账户余额，默认为0.00")
+    /**
+     * 账户余额，默认为0.00
+     */
     @TableField("balance")
     private BigDecimal balance;
 
-    @ApiModelProperty("账户货币类型，默认为美元")
+    /**
+     * 账户货币类型，默认为美元
+     */
     @TableField("currency")
     private String currency;
 
-    @ApiModelProperty("账户创建时间，默认为当前时间")
+    /**
+     * 账户创建时间，默认为当前时间
+     */
     @TableField("created_at")
     private Date createdAt;
 
-    @ApiModelProperty("账户更新时间，每次更新时自动修改为当前时间")
+    /**
+     * 账户更新时间，每次更新时自动修改为当前时间
+     */
     @TableField("updated_at")
     private Date updatedAt;
 
-    @ApiModelProperty("账户状态，默认为活跃")
+    /**
+     * 账户状态，默认为活跃
+     */
     @TableField("status")
     private String status;
 

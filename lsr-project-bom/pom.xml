@@ -24,6 +24,10 @@
         <freemarker.version>2.3.31</freemarker.version>
         <velocity-engine-core.version>2.3</velocity-engine-core.version>
         <swagger.verison>3.0.0</swagger.verison>
+        <logstash.version>7.3</logstash.version>
+        <springdoc-openapi-ui.version>1.5.12</springdoc-openapi-ui.version>
+        <springboot-flowable.version>6.7.2</springboot-flowable.version>
+        <httpclient.version>4.5.13</httpclient.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -53,21 +57,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
-                <version>${swagger.verison}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.plugin</groupId>
-                        <artifactId>spring-plugin-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.plugin</groupId>
-                        <artifactId>spring-plugin-metadata</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -107,6 +96,11 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity-engine-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
