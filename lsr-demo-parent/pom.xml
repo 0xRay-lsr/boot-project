@@ -18,6 +18,8 @@
     <modules>
         <module>lsr-openfeign-demo</module>
         <module>lsr-rest-demo</module>
+        <module>lsr-java8-demo</module>
+        <module>lsr-boot-project-sample</module>
     </modules>
 
     <properties>
@@ -44,6 +46,11 @@
             <dependency>
                 <groupId>cn.lsr.boot.demo</groupId>
                 <artifactId>lsr-rest-demo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsr.boot.demo</groupId>
+                <artifactId>lsr-java8-demo</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -30,4 +30,83 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <!-- 其他插件配置 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>assembly_v3.0.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>cn.lsr.maven.shell</groupId>
+                <artifactId>lsr-maven-shell-plugin</artifactId>
+                <configuration>
+                    <!-- 配置java属性或jvm调优参数 -->
+                    <jvmArgs>
+                        <jvmArg>-Dxxxx=./logs</jvmArg>
+                        <jvmArg>-server</jvmArg>
+                        <jvmArg>-Xms1024m</jvmArg>
+                        <jvmArg>-Xmx1024m</jvmArg>
+                        <jvmArg>-XX:PermSize=256m</jvmArg>
+                        <jvmArg>-XX:MaxPermSize=512m</jvmArg>
+                    </jvmArgs>
+                    <!-- skip是否跳过执行与-Dmaven.shell.skip属性配置相对应 -->
+                    <skip>false</skip>
+                    <!-- 启停脚本主命令名称(可选项,默认为aps)-->
+                    <mainCmd>aps</mainCmd>
+                    <!-- 启动类入口  (可选项,默认为Bootstrap入口)-->
+                    <starter>cn.lsr.boot.demo.provider.OpenfeignProviderApplication start</starter>
+                    <!-- 默认使用 kill -TERM PID 超过指定时间未停止则使用kill -9 PID (可选参数,默认30s) -->
+                    <stopTimeout>30</stopTimeout>
+                    <!-- 配置启动成功的日志标识(可选项,默认为 SystemStatus:Started) -->
+                    <startOkFlag>SystemStatus:Success</startOkFlag>
+                    <!-- 配置启动失败的日志标识(可选项,默认为 SystemStatus:Started) -->
+                    <startErrFlag>SystemStatus:Error</startErrFlag>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>gen-shell-tpl</id>
+                        <!-- 执行所在的生命周期 -->
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>gen-shell</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
