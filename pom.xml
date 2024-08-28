@@ -20,6 +20,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lsr.project.bom.version>1.0-SNAPSHOT</lsr.project.bom.version>
+        <lsr.shell.version>1.1.0-RELEASE</lsr.shell.version>
     </properties>
 
     <dependencyManagement>
@@ -39,6 +40,71 @@
         </dependencies>
     </dependencyManagement>
     <build>
+        <pluginManagement>
+            <plugins>
+                <!-- 其他插件配置 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.7.1</version>
+                    <configuration>
+                        <descriptors>
+                            <descriptor>assembly_v3.0.xml</descriptor>
+                        </descriptors>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>cn.lsr.maven.shell</groupId>
+                    <artifactId>lsr-maven-shell-plugin</artifactId>
+                    <version>${lsr.shell.version}</version>
+                    <executions>
+                        <execution>
+                            <id>gen-shell-tpl</id>
+                            <!-- 执行所在的生命周期 -->
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>gen-shell</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>copy-dependencies</id>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>copy-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                <overWriteReleases>false</overWriteReleases>
+                                <overWriteSnapshots>false</overWriteSnapshots>
+                                <overWriteIfNewer>true</overWriteIfNewer>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <version>3.1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>cn.lsr.maven.version</groupId>
+                    <artifactId>aps-maven-version-plugin</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </plugin>
+            </plugins>
+
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>cn.lsr.maven.version</groupId>
