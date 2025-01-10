@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class HttpAspect {
     private static final Logger logger = LoggerFactory.getLogger("http-log");
 
-    @Pointcut("execution(* cn.lsr.*.controller..*.*(..))")
+    @Pointcut("execution(* cn.aps.*.controller..*.*(..))")
     public void pointCut() {
 
     }

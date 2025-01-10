@@ -1,0 +1,39 @@
+package cn.aps.boot.web;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+/**
+ * @Author : lishirui
+ */
+@RequiredArgsConstructor
+@ServletComponentScan
+@SpringBootApplication
+@Controller
+public class Application {
+
+    private final HttpServletRequest request;
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class);
+    }
+
+    @GetMapping(value = "/test/{content}")
+    public String test(@PathVariable("content") String content) {
+        request.setAttribute("content", content);
+        return "test";
+    }
+
+    @GetMapping(value = "/index")
+    public String index() {
+        return "index";
+    }
+
+
+}

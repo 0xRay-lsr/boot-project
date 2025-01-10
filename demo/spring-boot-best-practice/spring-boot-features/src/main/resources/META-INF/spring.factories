@@ -1,0 +1,3 @@
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+cn.aps.boot.features.analyzer.PortInUseFailureAnalyzer,\
+cn.aps.boot.features.analyzer.JavastackFailureAnalyzer
