@@ -14,10 +14,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>aps-boot-camunda</module>
         <module>aps-openfeign-demo</module>
-        <module>aps-rest-demo</module>
-        <module>aps-java8-demo</module>
         <module>aps-boot-project-sample</module>
         <module>spring-boot-best-practice</module>
     </modules>
