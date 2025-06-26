@@ -15,6 +15,7 @@
 
     <modules>
         <module>aps-boot-validation</module>
+        <module>aps-logs-assembly</module>
     </modules>
 
     <properties>

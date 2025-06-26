@@ -14,7 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients  //扫描和注册feign客户端的beanDefinition
 @MapperScan("cn.aps.boot.demo.provider.mapper")
-@SpringBootApplication(scanBasePackages = "cn.lsr")
+@SpringBootApplication(scanBasePackages = "cn.aps")
 public class OpenfeignProviderApplication {
     public static void main(String[] args) {
         SpringApplication.run(OpenfeignProviderApplication.class,args);

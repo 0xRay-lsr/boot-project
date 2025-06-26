@@ -17,6 +17,10 @@
         <module>aps-openfeign-demo</module>
         <module>aps-boot-project-sample</module>
         <module>spring-boot-best-practice</module>
+        <module>jni-native-first-demo</module>
+        <module>aps-boot-rest</module>
+        <module>aps-jdk17-demo</module>
+        <module>aps-base-demo</module>
     </modules>
 
     <properties>

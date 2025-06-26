@@ -37,7 +37,7 @@ public class UsersController {
         int userId = random.nextInt(9999);
         Users users = new Users().setUserId(userId).setUsername("lishirui"+userId).setFirstName("shirui").setLastName("li").setPassword("rui0306.").setEmail(userId+"103@qq.com");
         logger.info("creater user is : {} ",users.toString());
-        usersService.save(users);
+//        usersService.save(users);
         logger.info("start invoker lsr-openfeign-consumer is service the PartyService01...");
         String name = partyServices.getPartyService01("lishirui");
         logger.info("end invoker lsr-openfeign-consumer is service the PartyService01 out count is : {}",name);

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>spring-boot-best-practice</artifactId>
+        <groupId>cn.aps.boot.test</groupId>
+        <version>1.0</version>
+    </parent>
+
+    <groupId>cn.aps.boot.auth</groupId>
+    <artifactId>spring-boot-oauth2</artifactId>
+    <packaging>pom</packaging>
+    <description> Spring Boot 3 + OAuth 2.0 + JWT</description>
+    <modules>
+        <module>spring-boot-oauth2-auth-server</module>
+        <module>spring-boot-oauth2-client</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+
+    </dependencies>
+
+</project>

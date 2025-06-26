@@ -1,0 +1,2 @@
+cn.aps.boot.logs.core.aggregator.ElkLogAggregator
+cn.aps.boot.logs.core.aggregator.DefaultLogAggregator

@@ -1,0 +1,4 @@
+server:
+  port: 8099
+  tomcat:
+    keep-alive-timeout: 1000000

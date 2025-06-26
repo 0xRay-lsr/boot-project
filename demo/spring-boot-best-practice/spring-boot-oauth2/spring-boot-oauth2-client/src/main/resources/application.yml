@@ -1,0 +1,22 @@
+server:
+  port: 8081 # 业务服务端口
+
+spring:
+  application:
+    name: resource-server # 应用名称
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9000 # 认证服务器的颁发者URI，用于验证JWT的签名和有效性
+          # 如果认证服务器不在本地或有更复杂的 JWKS URI，可以配置 jwk-set-uri: http://localhost:9000/oauth2/jwks
+# 日志配置
+logging:
+  level:
+    org.springframework.security: DEBUG # 开启Spring Security DEBUG日志，方便调试
+    org.hibernate.SQL: DEBUG # 打印 Hibernate 生成的 SQL
+    org.hibernate.orm.jdbc.bind: TRACE # 打印 SQL 参数绑定
+    org.springframework.boot.autoconfigure.orm.jpa: DEBUG # 打印 JPA 自动配置相关信息
+    org.springframework.boot.sql.init: DEBUG # 打印 data.sql 执行相关信息
+    org.springframework.security.oauth2.server.authorization: DEBUG
+    org.springframework.security.oauth2.core: DEBUG

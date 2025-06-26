@@ -1,0 +1,7 @@
+org.springframework.context.ApplicationListener=\
+  cn.aps.boot.logs.listener.LogSystemConfiguration
+
+
+
+
+

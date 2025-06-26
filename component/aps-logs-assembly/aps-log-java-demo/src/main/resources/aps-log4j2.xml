@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" packages="cn.aps.boot.logs.core.plugin" monitorInterval="10">
+
+    <Properties>
+        <property name="log_mode">${sys:log.mode:-file}</property>
+        <property name="enable_log_location">${sys:enable.log.location:-false}</property>
+        <property name="default_buffer_size">${sys:log.buffer.size:-1048576}</property>
+        <property name="LOG_HOME">
+            logs/${sys:aps.systemId:-}/${sys:aps.applicationName:-}/${env:NODE_IP:-local}_${env:HOSTNAME:-local}
+        </property>
+        <property name="default_additivity">${sys:log.additivity:-false}</property>
+
+        <property name="app_immediateFlush">${sys:app.immediateFlush:-true}</property>
+        <property name="app_rollover_size">${sys:app.rollover.size:-100MB}</property>
+        <property name="app_daily_maxfile">${sys:app.daily.maxfile:-100}</property>
+        <property name="app_delete_age">${sys:app.delete.age:-15d}</property>
+        <property name="boot_immediateFlush">${sys:boot.immediateFlush:-true}</property>
+        <property name="boot_rollover_size">${sys:boot.rollover.size:-100MB}</property>
+        <property name="boot_daily_maxfile">${sys:boot.daily.maxfile:-100}</property>
+        <property name="boot_delete_age">${sys:boot.delete.age:-30d}</property>
+        <property name="slowsql_immediateFlush">${sys:slowsql.immediateFlush:-true}</property>
+        <property name="slowsql_rollover_size">${sys:slowsql.rollover.size:-100MB}</property>
+        <property name="slowsql_daily_maxfile">${sys:slowsql.daily.maxfile:-100}</property>
+        <property name="slowsql_delete_age">${sys:slowsql.delete.age:-15d}</property>
+        <property name="links_immediateFlush">${sys:links.immediateFlush:-true}</property>
+        <property name="links_rollover_size">${sys:links.rollover.size:-100MB}</property>
+        <property name="links_daily_maxfile">${sys:links.daily.maxfile:-100}</property>
+        <property name="links_delete_age">${sys:links.delete.age:-15d}</property>
+        <property name="midware_immediateFlush">${sys:midware.immediateFlush:-false}</property>
+        <property name="midware_rollover_size">${sys:midware.rollover.size:-100MB}</property>
+        <property name="midware_daily_maxfile">${sys:midware.daily.maxfile:-100}</property>
+        <property name="midware_delete_age">${sys:midware.delete.age:-15d}</property>
+        <property name="alert_immediateFlush">${sys:alert.immediateFlush:-true}</property>
+        <property name="profile_immediateFlush">${sys:profile.immediateFlush:-false}</property>
+        <property name="profile_rollover_size">${sys:profile.rollover.size:-100MB}</property>
+        <property name="profile_daily_maxfile">${sys:profile.daily.maxfile:-100}</property>
+        <property name="profile_delete_age">${sys:profile.delete.age:-7d}</property>
+
+        <property name="default_pattern">
+            <![CDATA[[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%-5level] [${sys:aps.dataCenterId}] [${sys:aps.zoneId}] [%X{globalBusinessTrackNo}] [%X{serviceCallSeqNo}] [%X{serviceCode}] [%X{swimLane}] [${sys:aps.tenantId}] [segment_name=%X{segmentName}|traceid=%X{traceId}] [%pid] [%t] [%c] [%m]%n]]>
+        </property>
+        <property name="simple_pattern">
+            <![CDATA[[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%-5level] [${sys:aps.dataCenterId}] [${sys:aps.zoneId}] [${sys:aps.tenantId}] [segment_name=%X{segmentName}|traceid=%traceId] [%pid] [%t] [%c] [%m]%n]]>
+        </property>
+    </Properties>
+
+
+    <Appenders>
+        <!--全局日志路由入口-->
+        <Routing name="all_route">
+            <Routes pattern="$${ctx:log_type}">
+                <Route key="boot" ref="boot_route"/>
+                <Route key="app" ref="app_route"/>
+                <Route ref="app_route"/>
+            </Routes>
+            <!--            <Filters>-->
+            <!--                <LogFilter onMatch="NEUTRAL" onMisMatch="DENY"></LogFilter>-->
+            <!--            </Filters>-->
+        </Routing>
+
+        <!--应用日志路由入口-->
+        <Routing name="app_route">
+            <Routes pattern="$${log_mode}">
+                <Route key="file" ref="aps_app"/>
+                <Route key="console" ref="aps_console"/>
+            </Routes>
+        </Routing>
+
+        <!--启动日志路由入口-->
+        <Routing name="boot_route">
+            <Routes pattern="$${log_mode}">
+                <Route key="file" ref="aps_boot"/>
+                <Route key="console" ref="aps_console"/>
+            </Routes>
+        </Routing>
+
+        <!--预留profile日志路由入口，性能日志统一打到profile.log-->
+        <Routing name="profile_route">
+            <Routes pattern="$${log_mode}">
+                <Route ref="aps_profile"/>
+            </Routes>
+        </Routing>
+
+        <!-- ================================== 应用日志 ==================================-->
+        <Console name="aps_console">
+            <PatternLayout>
+                <Pattern>
+                    ${simple_pattern}
+                </Pattern>
+            </PatternLayout>
+        </Console>
+        <RollingFile name="aps_app" fileName="${LOG_HOME}/app.log" filePattern="${LOG_HOME}/app_%d{yyyy-MM-dd}_%i" immediateFlush="${app_immediateFlush}" bufferSize="${default_buffer_size}">
+            <PatternLayout pattern="${default_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${app_rollover_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="${app_daily_maxfile}">
+                <Delete basePath="${LOG_HOME}/" maxDepth="1">
+                    <IfFileName glob="app_*.*"/>
+                    <IfLastModified age="${app_delete_age}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+
+        <!-- ================================== 启动日志 ==================================-->
+        <!--动态appender -->
+        <RollingFile name="aps_boot" fileName="${LOG_HOME}/boot.log" filePattern="${LOG_HOME}/boot_%d{yyyy-MM-dd}_%i" immediateFlush="${boot_immediateFlush}" bufferSize="${default_buffer_size}">
+            <PatternLayout pattern="${simple_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${boot_rollover_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="${boot_daily_maxfile}">
+                <Delete basePath="${LOG_HOME}/" maxDepth="1">
+                    <IfFileName glob="boot_*.*"/>
+                    <IfLastModified age="${boot_delete_age}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+
+        <!-- ================================== 慢SQL日志 ==================================-->
+        <RollingFile name="aps_slowsql" fileName="${LOG_HOME}/slowsql.log" filePattern="${LOG_HOME}/slowsql_%d{yyyy-MM-dd}_%i" immediateFlush="${slowsql_immediateFlush}" bufferSize="${default_buffer_size}">
+            <PatternLayout pattern="${default_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${slowsql_rollover_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="${slowsql_daily_maxfile}">
+                <Delete basePath="${LOG_HOME}/" maxDepth="1">
+                    <IfFileName glob="slowsql_*.*"/>
+                    <IfLastModified age="${slowsql_delete_age}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+
+        <!-- ================================== 通讯日志 ==================================-->
+        <RollingFile name="aps_links" fileName="${LOG_HOME}/links.log" filePattern="${LOG_HOME}/links_%d{yyyy-MM-dd}_%i" immediateFlush="${links_immediateFlush}" bufferSize="${default_buffer_size}">
+            <PatternLayout pattern="${default_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${links_rollover_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="${links_daily_maxfile}">
+                <Delete basePath="${LOG_HOME}/" maxDepth="1">
+                    <IfFileName glob="links_*.*"/>
+                    <IfLastModified age="${links_delete_age}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+
+        <!-- ================================== 中间件日志 ==================================-->
+        <RollingFile name="aps_midware" fileName="${LOG_HOME}/midware.log" filePattern="${LOG_HOME}/midware_%d{yyyy-MM-dd}_%i" immediateFlush="${midware_immediateFlush}" bufferSize="${default_buffer_size}">
+            <PatternLayout pattern="${default_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${midware_rollover_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="${midware_daily_maxfile}">
+                <Delete basePath="${LOG_HOME}/" maxDepth="1">
+                    <IfFileName glob="midware_*.*"/>
+                    <IfLastModified age="${midware_delete_age}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- ================================== 性能调优日志 ==================================-->
+        <RollingFile name="aps_profile" fileName="${LOG_HOME}/profile.log" filePattern="${LOG_HOME}/profile_%d{yyyy-MM-dd}_%i" immediateFlush="${profile_immediateFlush}" bufferSize="${default_buffer_size}">
+            <PatternLayout pattern="${default_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${profile_rollover_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy min="1" max="${profile_daily_maxfile}">
+                <Delete basePath="${LOG_HOME}/" maxDepth="1">
+                    <IfFileName glob="profile_*.*"/>
+                    <IfLastModified age="${profile_delete_age}"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <AsyncLogger name="aps.app" level="info" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="all_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="aps.boot" level="info" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="all_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="aps.sql" level="info" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="all_route"/>
+        </AsyncLogger>
+        <AsyncLogger name="aps.slowsql" level="info" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="aps_slowsql"/>
+        </AsyncLogger>
+        <AsyncLogger name="aps.links" level="info" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="aps_links"/>
+        </AsyncLogger>
+        <AsyncLogger name="aps.profile" level="info" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="aps_profile"/>
+        </AsyncLogger>
+        <!-- 中间件日志重定向 -->
+        <AsyncLogger name="sentinel" level="info" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="aps_midware"/>
+        </AsyncLogger>
+        <AsyncLogger name="RocketmqClient" level="error" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="aps_midware"/>
+        </AsyncLogger>
+        <AsyncLogger name="RocketmqCommon" level="error" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="aps_midware"/>
+        </AsyncLogger>
+        <AsyncLogger name="RocketmqRemoting" level="error" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="aps_midware"/>
+        </AsyncLogger>
+        <AsyncLogger name="com.alibaba.nacos" level="error" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="aps_midware"/>
+        </AsyncLogger>
+        <AsyncLogger name="com.ctrip.framework.apollo" level="info" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="aps_midware"/>
+        </AsyncLogger>
+        <AsyncLogger name="com.alipay.sofa.rpc.registry.dsr" level="info" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="aps_midware"/>
+        </AsyncLogger>
+
+        <AsyncLogger name="cn.aps.boot" level="debug" additivity="${default_additivity}" includeLocation="${enable_log_location}">
+            <AppenderRef ref="all_route"/>
+        </AsyncLogger>
+
+        <AsyncRoot level="info" includeLocation="${enable_log_location}">
+            <AppenderRef ref="all_route"/>
+        </AsyncRoot>
+
+    </Loggers>
+
+</Configuration>

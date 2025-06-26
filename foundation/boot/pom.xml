@@ -28,11 +28,6 @@
                 <artifactId>aps-boot-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>cn.aps.boot.api</groupId>
-                <artifactId>aps-boot-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

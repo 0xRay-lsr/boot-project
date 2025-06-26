@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+
+    <property name="log_mode" value="${log.mode:-file}"/>
+    <property name="enable_log_location" value="${enable.log.location:-false}"/>
+    <property name="default_buffer_size" value="${log.buffer.size:-1048576}"/>
+    <property name="LOG_HOME" value="logs/${aps.systemId:-}/${aps.applicationName:-}/${NODE_IP:-local}_${HOSTNAME:-local}"/>
+
+    <!-- app 配置 -->
+    <property name="app_immediateFlush" value="${app.immediateFlush:-true}"/>
+    <property name="app_rollover_size" value="${app.rollover.size:-100MB}"/>
+    <property name="app_daily_maxfile" value="${app.daily.maxfile:-100}"/>
+    <property name="app_delete_age" value="${app.delete.age:-15}"/>
+
+    <!-- boot 配置 -->
+    <property name="boot_immediateFlush" value="${boot.immediateFlush:-true}"/>
+    <property name="boot_rollover_size" value="${boot.rollover.size:-100MB}"/>
+    <property name="boot_daily_maxfile" value="${boot.daily.maxfile:-100}"/>
+    <property name="boot_delete_age" value="${boot.delete.age:-30}"/>
+
+    <!-- slowsql 配置 -->
+    <property name="slowsql_immediateFlush" value="${slowsql.immediateFlush:-true}"/>
+    <property name="slowsql_rollover_size" value="${slowsql.rollover.size:-100MB}"/>
+    <property name="slowsql_daily_maxfile" value="${slowsql.daily.maxfile:-100}"/>
+    <property name="slowsql_delete_age" value="${slowsql.delete.age:-15}"/>
+
+    <!-- links 配置 -->
+    <property name="links_immediateFlush" value="${links.immediateFlush:-true}"/>
+    <property name="links_rollover_size" value="${links.rollover.size:-100MB}"/>
+    <property name="links_daily_maxfile" value="${links.daily.maxfile:-100}"/>
+    <property name="links_delete_age" value="${links.delete.age:-15}"/>
+
+    <!-- midware 配置 -->
+    <property name="midware_immediateFlush" value="${midware.immediateFlush:-false}"/>
+    <property name="midware_rollover_size" value="${midware.rollover.size:-100MB}"/>
+    <property name="midware_daily_maxfile" value="${midware.daily.maxfile:-100}"/>
+    <property name="midware_delete_age" value="${midware.delete.age:-15}"/>
+
+    <!-- profile 配置 -->
+    <property name="profile_immediateFlush" value="${profile.immediateFlush:-false}"/>
+    <property name="profile_rollover_size" value="${profile.rollover.size:-100MB}"/>
+    <property name="profile_daily_maxfile" value="${profile.daily.maxfile:-100}"/>
+    <property name="profile_delete_age" value="${profile.delete.age:-7}"/>
+
+    <property name="default_pattern" value="%d{yyyy-MM-dd HH:mm:ss:SSS} %-5level [%X{globalBusinessTrackNo}] [%X{serviceCallSeqNo}] [%X{serviceCode}] [%X{swimLane}] [segment_name=%X{segmentName}|traceid=%X{traceId}] [%thread] [%logger] [%msg]%n"/>
+    <property name="simple_pattern" value="%d{yyyy-MM-dd HH:mm:ss:SSS} %-5level [segment_name=%X{segmentName}|traceid=%X{traceId}] [%thread] [%logger] [%msg]%n"/>
+
+    <!-- 控制台输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${simple_pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 通用滚动文件 appender 定义模板 -->
+    <appender name="APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/app.log</file>
+        <encoder>
+            <pattern>${default_pattern}</pattern>
+        </encoder>
+        <immediateFlush>${app_immediateFlush}</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/app_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>${app_rollover_size}</maxFileSize>
+            <maxHistory>${app_daily_maxfile}</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="BOOT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/boot.log</file>
+        <encoder>
+            <pattern>${simple_pattern}</pattern>
+        </encoder>
+        <immediateFlush>${boot_immediateFlush}</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/boot_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>${boot_rollover_size}</maxFileSize>
+            <maxHistory>${boot_daily_maxfile}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="SLOWSQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/slowsql.log</file>
+        <encoder>
+            <pattern>${default_pattern}</pattern>
+        </encoder>
+        <immediateFlush>${slowsql_immediateFlush}</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/slowsql_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>${slowsql_rollover_size}</maxFileSize>
+            <maxHistory>${slowsql_daily_maxfile}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="LINKS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/links.log</file>
+        <encoder>
+            <pattern>${default_pattern}</pattern>
+        </encoder>
+        <immediateFlush>${links_immediateFlush}</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/links_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>${links_rollover_size}</maxFileSize>
+            <maxHistory>${links_daily_maxfile}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="MIDWARE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/midware.log</file>
+        <encoder>
+            <pattern>${default_pattern}</pattern>
+        </encoder>
+        <immediateFlush>${midware_immediateFlush}</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/midware_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>${midware_rollover_size}</maxFileSize>
+            <maxHistory>${midware_daily_maxfile}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="PROFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/profile.log</file>
+        <encoder>
+            <pattern>${default_pattern}</pattern>
+        </encoder>
+        <immediateFlush>${profile_immediateFlush}</immediateFlush>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/profile_%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>${profile_rollover_size}</maxFileSize>
+            <maxHistory>${profile_daily_maxfile}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 各类业务日志 Logger -->
+    <logger name="aps.app" level="INFO" additivity="false">
+        <appender-ref ref="APP"/>
+    </logger>
+
+    <logger name="aps.boot" level="INFO" additivity="false">
+        <appender-ref ref="BOOT"/>
+    </logger>
+
+    <logger name="aps.slowsql" level="INFO" additivity="false">
+        <appender-ref ref="SLOWSQL"/>
+    </logger>
+
+    <logger name="aps.links" level="INFO" additivity="false">
+        <appender-ref ref="LINKS"/>
+    </logger>
+
+    <logger name="aps.profile" level="INFO" additivity="false">
+        <appender-ref ref="PROFILE"/>
+    </logger>
+
+    <!-- 将 Spring Boot 和相关框架的日志打到 boot -->
+    <logger name="org.springframework.boot" level="DEBUG" additivity="false">
+        <appender-ref ref="BOOT"/>
+    </logger>
+
+    <logger name="org.springframework.boot.logging" level="DEBUG" additivity="false">
+        <appender-ref ref="BOOT"/>
+    </logger>
+
+    <logger name="org.springframework.context" level="INFO" additivity="false">
+        <appender-ref ref="BOOT"/>
+    </logger>
+
+    <logger name="org.springframework.beans" level="INFO" additivity="false">
+        <appender-ref ref="BOOT"/>
+    </logger>
+
+    <logger name="org.springframework.jmx" level="INFO" additivity="false">
+        <appender-ref ref="BOOT"/>
+    </logger>
+
+    <logger name="org.apache.catalina" level="INFO" additivity="false">
+        <appender-ref ref="BOOT"/>
+    </logger>
+
+    <logger name="org.apache.coyote" level="INFO" additivity="false">
+        <appender-ref ref="BOOT"/>
+    </logger>
+
+    <logger name="org.apache.tomcat" level="INFO" additivity="false">
+        <appender-ref ref="BOOT"/>
+    </logger>
+
+    <logger name="ch.qos.logback" level="WARN" additivity="false">
+        <appender-ref ref="BOOT"/>
+    </logger>
+
+    <!-- 中间件相关 -->
+    <logger name="sentinel" level="INFO" additivity="false">
+        <appender-ref ref="MIDWARE"/>
+    </logger>
+    <logger name="RocketmqClient" level="ERROR" additivity="false">
+        <appender-ref ref="MIDWARE"/>
+    </logger>
+    <logger name="RocketmqCommon" level="ERROR" additivity="false">
+        <appender-ref ref="MIDWARE"/>
+    </logger>
+    <logger name="RocketmqRemoting" level="ERROR" additivity="false">
+        <appender-ref ref="MIDWARE"/>
+    </logger>
+    <logger name="com.alibaba.nacos" level="ERROR" additivity="false">
+        <appender-ref ref="MIDWARE"/>
+    </logger>
+    <logger name="com.ctrip.framework.apollo" level="INFO" additivity="false">
+        <appender-ref ref="MIDWARE"/>
+    </logger>
+
+    <logger name="cn.aps.boot" level="DEBUG" additivity="false">
+        <appender-ref ref="APP"/>
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="APP"/>
+    </root>
+</configuration>

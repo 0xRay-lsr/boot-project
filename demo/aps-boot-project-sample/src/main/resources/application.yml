@@ -1,0 +1,10 @@
+server:
+  port: 8066
+spring:
+  application:
+    name: boot-application
+logging:
+  config: classpath:logback-spring.xml
+lsr:
+  test: rrr
+  test2: xxx

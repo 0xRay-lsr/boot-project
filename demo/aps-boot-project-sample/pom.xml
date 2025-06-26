@@ -36,6 +36,11 @@
             <version>0.2.11</version>
         </dependency>
         <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
             <version>3.0.9</version>
@@ -44,86 +49,115 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
+        <!-- Feign专用 -->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>
+        <!-- RestTemplate专用 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
-            <!-- 其他插件配置 -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.7.1</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <descriptors>
-                        <descriptor>assembly_v3.0.xml</descriptor>
-                    </descriptors>
+                    <mainClass>cn.aps.boot.BootApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                        </configuration>
-                    </execution>
-                </executions>
-                <version>3.1.2</version>
-            </plugin>
-            <plugin>
-                <groupId>cn.lsr.maven.shell</groupId>
-                <artifactId>lsr-maven-shell-plugin</artifactId>
-                <version>1.1.0-RELEASE</version>
-                <configuration>
-                    <!-- 配置java属性或jvm调优参数 -->
-                    <jvmArgs>
-                        <jvmArg>-server</jvmArg>
-                        <jvmArg>-Xms1024m</jvmArg>
-                        <jvmArg>-Xmx1024m</jvmArg>
-                        <jvmArg>-XX:PermSize=256m</jvmArg>
-                        <jvmArg>-XX:MaxPermSize=512m</jvmArg>
-                    </jvmArgs>
-                    <!-- skip是否跳过执行与-Dmaven.shell.skip属性配置相对应 -->
-                    <skip>false</skip>
-                    <!-- 启停脚本主命令名称(可选项,默认为aps)-->
-                    <mainCmd>aps</mainCmd>
-                    <!-- 启动类入口  (可选项,默认为Bootstrap入口)-->
-                    <starter>cn.aps.boot.BootApplication start</starter>
-                    <!-- 默认使用 kill -TERM PID 超过指定时间未停止则使用kill -9 PID (可选参数,默认30s) -->
-                    <stopTimeout>30</stopTimeout>
-                    <!-- 配置启动成功的日志标识(可选项,默认为 SystemStatus:Started) -->
-                    <startOkFlag>SystemStatus:Success</startOkFlag>
-                    <!-- 配置启动失败的日志标识(可选项,默认为 SystemStatus:Started) -->
-                    <startErrFlag>SystemStatus:Error</startErrFlag>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>gen-shell-tpl</id>
-                        <!-- 执行所在的生命周期 -->
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>gen-shell</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            &lt;!&ndash; 其他插件配置 &ndash;&gt;-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-assembly-plugin</artifactId>-->
+<!--                <version>3.7.1</version>-->
+<!--                <configuration>-->
+<!--                    <descriptors>-->
+<!--                        <descriptor>assembly_v3.0.xml</descriptor>-->
+<!--                    </descriptors>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>make-assembly</id>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>single</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-dependency-plugin</artifactId>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>copy-dependencies</id>-->
+<!--                        <phase>prepare-package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>copy-dependencies</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <outputDirectory>target/lib</outputDirectory>-->
+<!--                            <overWriteReleases>false</overWriteReleases>-->
+<!--                            <overWriteSnapshots>false</overWriteSnapshots>-->
+<!--                            <overWriteIfNewer>true</overWriteIfNewer>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <version>3.1.2</version>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>cn.lsr.maven.shell</groupId>-->
+<!--                <artifactId>lsr-maven-shell-plugin</artifactId>-->
+<!--                <version>1.1.0-RELEASE</version>-->
+<!--                <configuration>-->
+<!--                    &lt;!&ndash; 配置java属性或jvm调优参数 &ndash;&gt;-->
+<!--                    <jvmArgs>-->
+<!--                        <jvmArg>-server</jvmArg>-->
+<!--                        <jvmArg>-Xms1024m</jvmArg>-->
+<!--                        <jvmArg>-Xmx1024m</jvmArg>-->
+<!--                        <jvmArg>-XX:PermSize=256m</jvmArg>-->
+<!--                        <jvmArg>-XX:MaxPermSize=512m</jvmArg>-->
+<!--                    </jvmArgs>-->
+<!--                    &lt;!&ndash; skip是否跳过执行与-Dmaven.shell.skip属性配置相对应 &ndash;&gt;-->
+<!--                    <skip>false</skip>-->
+<!--                    &lt;!&ndash; 启停脚本主命令名称(可选项,默认为aps)&ndash;&gt;-->
+<!--                    <mainCmd>aps</mainCmd>-->
+<!--                    &lt;!&ndash; 启动类入口  (可选项,默认为Bootstrap入口)&ndash;&gt;-->
+<!--                    <starter>cn.aps.boot.BootApplication start</starter>-->
+<!--                    &lt;!&ndash; 默认使用 kill -TERM PID 超过指定时间未停止则使用kill -9 PID (可选参数,默认30s) &ndash;&gt;-->
+<!--                    <stopTimeout>30</stopTimeout>-->
+<!--                    &lt;!&ndash; 配置启动成功的日志标识(可选项,默认为 SystemStatus:Started) &ndash;&gt;-->
+<!--                    <startOkFlag>SystemStatus:Success</startOkFlag>-->
+<!--                    &lt;!&ndash; 配置启动失败的日志标识(可选项,默认为 SystemStatus:Started) &ndash;&gt;-->
+<!--                    <startErrFlag>SystemStatus:Error</startErrFlag>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>gen-shell-tpl</id>-->
+<!--                        &lt;!&ndash; 执行所在的生命周期 &ndash;&gt;-->
+<!--                        <phase>generate-sources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>gen-shell</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

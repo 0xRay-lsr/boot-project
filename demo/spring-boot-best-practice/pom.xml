@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.0</version>
-    </parent>
 
     <groupId>cn.aps.boot.test</groupId>
     <artifactId>spring-boot-best-practice</artifactId>
@@ -32,14 +25,13 @@
         <module>spring-boot-features</module>
         <module>spring-boot-datasource</module>
         <module>spring-boot-jpa</module>
-		<module>spring-boot-activemq</module>
+        <module>spring-boot-activemq</module>
         <module>spring-boot-rabbitmq</module>
-		<module>spring-boot-kafka</module>
+        <module>spring-boot-kafka</module>
         <module>spring-boot-cache</module>
         <module>spring-boot-mybatis</module>
         <module>spring-boot-mybatis-plus</module>
         <module>spring-boot-flyway</module>
-        <module>spring-boot-mapstruct</module>
         <module>spring-boot-jasypt</module>
         <module>spring-boot-knife4j</module>
         <module>spring-boot-tinylog</module>
@@ -47,10 +39,35 @@
         <module>spring-boot-admin-client</module>
         <module>spring-boot-schedule</module>
         <module>spring-boot-quartz</module>
-		<module>spring-boot-actuator</module>
+        <module>spring-boot-actuator</module>
         <module>spring-boot-aop</module>
+        <module>spring-boot-invoke</module>
+        <module>spring-boot-play</module>
+        <module>spring-boot-oauth2</module>
     </modules>
-
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>3.3.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Hoxton.SR9</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
 
         <dependency>
@@ -90,12 +107,12 @@
     </dependencies>
 
     <build>
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
+        <!--        <plugins>-->
+        <!--            <plugin>-->
+        <!--                <groupId>org.springframework.boot</groupId>-->
+        <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+        <!--            </plugin>-->
+        <!--        </plugins>-->
     </build>
 
 </project>

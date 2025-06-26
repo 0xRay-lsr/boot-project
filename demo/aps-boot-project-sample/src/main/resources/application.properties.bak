@@ -1,0 +1,5 @@
+server.port=8066
+spring.application.name=boot-application
+logging.config=classpath:logback-spring.xml
+lsr.test=ccc
+lsr.test2=xxx

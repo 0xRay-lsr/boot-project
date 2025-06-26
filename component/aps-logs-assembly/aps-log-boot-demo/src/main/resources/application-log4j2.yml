@@ -1,0 +1,4 @@
+server:
+  port: 8889
+logging:
+  config: classpath:aps-log4j2.xml

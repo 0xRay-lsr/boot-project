@@ -1,0 +1,35 @@
+server:
+  port: 9000 # 认证服务器端口
+
+spring:
+  application:
+    name: auth-server # 应用名称
+  datasource:
+    url: jdbc:h2:mem:authdb # H2 内存数据库URL
+    driverClassName: org.h2.Driver
+    username: lishirui
+    password: lishirui
+  jpa:
+    hibernate:
+      ddl-auto: create # 启动时更新数据库 schema  update , create, create-drop
+    show-sql: true # 打印 SQL 语句
+    defer-datasource-initialization: true # 解决启动无法找到表的问题
+  h2:
+    console:
+      enabled: true # 启用 H2 控制台
+      path: /h2-console # H2 控制台访问路径
+  security:
+    oauth2:
+      authorizationserver:
+        issuer-uri: http://localhost:9000 # 颁发者URI，必须与实际端口一致，用于JWT的iss字段
+
+# 日志配置
+logging:
+  level:
+    org.springframework.security: DEBUG # 开启Spring Security DEBUG日志，方便调试
+    org.hibernate.SQL: DEBUG # 打印 Hibernate 生成的 SQL
+    org.hibernate.orm.jdbc.bind: TRACE # 打印 SQL 参数绑定
+    org.springframework.boot.autoconfigure.orm.jpa: DEBUG # 打印 JPA 自动配置相关信息
+    org.springframework.boot.sql.init: DEBUG # 打印 data.sql 执行相关信息
+    org.springframework.security.oauth2.server.authorization: DEBUG
+    cn.aps.boot.auth.server: DEBUG
