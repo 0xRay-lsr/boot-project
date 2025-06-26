@@ -11,4 +11,4 @@
     输入完获取token的地址后，会自动跳转到redirect_uri，在地址栏中可以看到code
 
 # 刷新token
-    
+    详细请看 boot.postman_collection.json
