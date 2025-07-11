@@ -21,6 +21,7 @@
         <module>aps-boot-rest</module>
         <module>aps-jdk17-demo</module>
         <module>aps-base-demo</module>
+        <module>aps-jdk-aop</module>
     </modules>
 
     <properties>
