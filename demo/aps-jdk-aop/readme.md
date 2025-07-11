@@ -5,7 +5,8 @@
 
 # 效果预览
 <img src="images/6.jpg">
-# 方式1：通过attach连接jvm，加载agent，实现aop功能
+    
+    方式1：通过attach连接jvm，加载agent，实现aop功能
     java -jar aps-jdk-aop-attach-tool-1.0-SNAPSHOT.jar
     根据命令提示进行输入
     1、进程号
@@ -28,7 +29,8 @@
 
 # 效果图
 <img src="images/5.jpg">
-    Http 增强类命令：
+    
+    方式2：Http 增强类命令：
     # 增强某方法
     curl "http://localhost:11414/retransform?class=cn.aps.demo.TargetApp&method=sayHello&desc=(Ljava/lang/String;)Ljava/lang/String;"
     # 查看已加载类
