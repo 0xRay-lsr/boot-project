@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Premain-Class: cn.aps.boot.aop.agent.Agent
+Agent-Class: cn.aps.boot.aop.agent.Agent
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
