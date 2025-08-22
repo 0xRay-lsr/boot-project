@@ -22,6 +22,7 @@
         <module>aps-jdk17-demo</module>
         <module>aps-base-demo</module>
         <module>aps-jdk-aop</module>
+        <module>aps-socket-demo</module>
     </modules>
 
     <properties>
