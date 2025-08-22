@@ -44,6 +44,8 @@
         <module>spring-boot-invoke</module>
         <module>spring-boot-play</module>
         <module>spring-boot-oauth2</module>
+        <module>spring-boot-timeout-mvc</module>
+        <module>spring-boot-timeout-webflux</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
