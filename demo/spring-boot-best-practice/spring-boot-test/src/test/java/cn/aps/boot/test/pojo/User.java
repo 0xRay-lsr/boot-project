@@ -1,3 +1,4 @@
+/**n * @author lishiruin * @date 2025-10-27n */
 package cn.aps.boot.test.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
